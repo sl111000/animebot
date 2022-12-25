@@ -12,8 +12,26 @@ class TocMachine(GraphMachine):
         self.choice = ''
         self.machine = GraphMachine(model=self, **machine_configs)
 
-    def is_going_to_power(self, event):
+    def is_going_to_power_input_num(self, event):
         return event.message.text == '次方'
+
+    def is_going_to_power_input_num1(self, event):
+        text = event.message.text
+        try:
+            w = int(text)
+        except ValueError:
+            return False
+        self.weight = w
+        return True 
+
+    def is_going_to_power_ans(self, event):
+        text = event.message.text
+        try:
+            w = int(text)
+        except ValueError:
+            return False
+        self.height = w
+        return True   
 
     def on_enter_Input_num(self, event):
         reply = event.reply_token
