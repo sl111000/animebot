@@ -1,11 +1,11 @@
 import os
 import sys
 
-from flask import Flask, jsonify, request, abort, send_file
+from flask import Flask,send_from_directory, jsonify, request, abort, send_file
 from dotenv import load_dotenv
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageTemplateAction,CarouselColumn,MessageEvent, TextMessage, TextSendMessage,URIAction,MessageAction
 from utils import send_button_message, send_carousel_message, send_image_message, send_text_message,send_text_multiple_message,send_video_message
 from fsm import TocMachine
 from utils import send_text_message
@@ -27,13 +27,50 @@ if channel_access_token is None:
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
 
-@app.route("/callback", methods=["POST"])
-def callback():
+@app.route("/webhook", methods=["POST"])
+def webhook_handler():
     signature = request.headers["X-Line-Signature"]
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+    app.logger.info(f"Request body: {body}")
 
+    import json
+
+    data = json.loads(body)
+
+    userId = data['events'][0]['source']['userId']
+    machine = hash_map.setdefault(userId,TocMachine(
+    states=["user", "power_input_num", "power_input_num1","power_ans"],
+    transitions=[
+        {
+            "trigger": "advance",
+            "source": "user",
+            "dest": "power_input_num",
+            "conditions": "is_going_to_power_input_num",
+        },
+        {
+            "trigger": "advance",
+            "source": "power_input_num",
+            "dest": "power_input_num1",
+            "conditions": "is_going_to_power_input_num1",
+        },
+        {
+            "trigger": "advance",
+            "source": "power_input_num1",
+            "dest": "power_ans",
+            "conditions": "is_going_to_power_ans",
+        },
+        {
+            "trigger": "advance",
+            "source": "power_ans",
+            "dest": "user",
+            "conditions": "back",
+         },
+    ],
+    initial="user",
+    auto_transitions=False,
+    show_conditions=True,
+))
     # parse webhook body
     try:
         events = parser.parse(body, signature)
@@ -67,46 +104,6 @@ def callback():
                 send_button_message(event.reply_token, title, text, btn, url)
 
     return "OK"
-
-
-
-@app.route("/webhook", methods=["POST"])
-def webhook_handler():
-    signature = request.headers["X-Line-Signature"]
-    # get request body as text
-    body = request.get_data(as_text=True)
-    app.logger.info(f"Request body: {body}")
-
-    import json
-
-    data = json.loads(body)
-
-    userId = data['events'][0]['source']['userId']
-    machine = TocMachine(
-    states=["user", "state1", "state2"],
-    transitions=[
-        {
-            "trigger": "advance",
-            "source": "user",
-            "dest": "state1",
-            "conditions": "is_going_to_state1",
-        },
-        {
-            "trigger": "advance",
-            "source": "user",
-            "dest": "state2",
-            "conditions": "is_going_to_state2",
-        },
-        {"trigger": "go_back", "source": ["state1", "state2"], "dest": "user"},
-    ],
-    initial="user",
-    auto_transitions=False,
-    show_conditions=True,
-)
-
-
-    return "OK"
-
 
 @app.route("/show-fsm", methods=["GET"])
 def show_fsm():

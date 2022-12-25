@@ -25,6 +25,10 @@ class TocMachine(GraphMachine):
         text = event.message.text
         send_text_message(reply, '請輸入要的次方數')
 
+    def back(self, event):
+        text = event.message.text
+        return text == '返回主選單'
+
 def on_enter_user(self, event):
         self.weight = -1
         self.height = -1
