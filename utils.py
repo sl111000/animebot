@@ -66,12 +66,3 @@ def power (num,num1):
     ans.append(power)
     return ans
 
-
-
-"""
-def send_image_url(id, img_url):
-    pass
-
-def send_button_message(id, text, buttons):
-    pass
-"""
