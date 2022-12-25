@@ -24,6 +24,18 @@ def send_video_message(reply_token, videoUrl, preUrl):
     )
     line_bot_api.reply_message(reply_token, message)
     return "OK"
+
+def send_carousel_message(reply_token, col):
+    line_bot_api = LineBotApi(channel_access_token)
+    message = TemplateSendMessage(
+        alt_text = '*選單*',
+        template = CarouselTemplate(columns = col)
+    )
+    line_bot_api.reply_message(reply_token, message)
+
+    return "OK"
+
+
 def send_button_message(reply_token, title, text, btn, url):
     line_bot_api = LineBotApi(channel_access_token)
     message = TemplateSendMessage(
