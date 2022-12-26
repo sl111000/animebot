@@ -49,18 +49,23 @@ cal_ans=計算機的答案
 ## 操作示範
 1.隨便輸入英文字母來開始linebot的操作
 ![image](https://raw.githubusercontent.com/sl111000/linebot/master/img/1.jpg)
+
 2.之後就可以選擇要使用的功能 我們依序從第一個介紹 
 
 按下或輸入計算次方，之後依照指示打出你要計算的數字
 ![image](https://raw.githubusercontent.com/sl111000/linebot/master/img/2.jpg)
+
 3.按下返回主選單之後就可以選著其他的功能來操作
 ![image](https://raw.githubusercontent.com/sl111000/linebot/master/img/3.jpg)
+
 4.這裏我們按下簡易計算機，跟著指示打出要計算的數字
 ![image](https://raw.githubusercontent.com/sl111000/linebot/master/img/4.jpg)
+
 5.然後我們便可以選著我們要使用的加減乘除了
 
 這裏我就示範乘法
 ![image](https://raw.githubusercontent.com/sl111000/linebot/master/img/5.jpg)
+
 6.按下返回主選單就可以換其他操作
 我們這裏就按下fsm圖來完成最後一個功能
 ![image](https://raw.githubusercontent.com/sl111000/linebot/master/img/6.jpg)
