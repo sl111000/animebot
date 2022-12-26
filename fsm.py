@@ -1,10 +1,14 @@
 from transitions.extensions import GraphMachine
+from dotenv import load_dotenv
+import os
 from utils import send_text_message
 from linebot.models import MessageAction,URIAction,MessageTemplateAction,CarouselColumn,MessageEvent, TextMessage, TextSendMessage,URIAction,MessageAction
 from utils import send_button_message, send_carousel_message, send_image_message, send_text_message,send_text_multiple_message,send_video_message
 from utils import power
 from utils import cal
-
+load_dotenv()
+url = 'https://media.istockphoto.com/id/604373174/zh/%E7%85%A7%E7%89%87/skyline-of-taipei-city.jpg?s=612x612&w=0&k=20&c=chjFFZCrfe-3QP6lKlnDhsCnOu7ROdAizA_eyJPpvoU='
+main_url = os.getenv("MAIN_URL", None)
 class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
         self.num = -1
@@ -85,7 +89,7 @@ class TocMachine(GraphMachine):
                 text ='返回主選單'
             ),
         ]
-        send_button_message(event.reply_token, title, text, btn)
+        send_button_message(event.reply_token, title, text, btn, url)
 
     def on_enter_cal_input_num2(self, event):
         reply = event.reply_token
@@ -115,7 +119,7 @@ class TocMachine(GraphMachine):
                 text ='/'
             ),
         ]
-        send_button_message(event.reply_token, title, text, btn)
+        send_button_message(event.reply_token, title, text, btn ,url)
 
     def on_enter_cal_ans(self, event):
         ans = cal(self.num2, self.num3,self.symbol)
@@ -127,13 +131,13 @@ class TocMachine(GraphMachine):
                 text ='返回主選單'
             ),
         ]
-        send_button_message(event.reply_token, title, text, btn)
+        send_button_message(event.reply_token, title, text, btn,url)
 
     def back(self, event):
         text = event.message.text
         return text == '返回主選單'
 
-def on_enter_user(self, event):
+    def on_enter_user(self, event):
         self.num = -1
         self.num1 = -1
         self.num2 = -1
@@ -150,10 +154,10 @@ def on_enter_user(self, event):
             MessageTemplateAction(
                 label = '簡易計算機',
                 text = '簡易計算機'
-           ),
+            ),
             MessageTemplateAction(
                 label = 'fsm圖',
                 text = 'fsm圖'
             )
         ]
-        send_button_message(event.reply_token, title, text, btn) 
+        send_button_message(event.reply_token, title, text, btn,url) 

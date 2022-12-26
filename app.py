@@ -13,7 +13,8 @@ os.environ['PATH'] =  os.pathsep + './Graphviz/bin/'
 app = Flask(__name__, static_url_path="")
 load_dotenv()
 hash_map = dict()
-
+url = 'https://media.istockphoto.com/id/604373174/zh/%E7%85%A7%E7%89%87/skyline-of-taipei-city.jpg?s=612x612&w=0&k=20&c=chjFFZCrfe-3QP6lKlnDhsCnOu7ROdAizA_eyJPpvoU='
+main_url = os.getenv("MAIN_URL", None)
 # get channel_secret and channel_access_token from your environment variable
 channel_secret = os.getenv("LINE_CHANNEL_SECRET", None)
 channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
@@ -35,11 +36,12 @@ def webhook_handler():
     app.logger.info(f"Request body: {body}")
 
     import json
-
+    
     data = json.loads(body)
-
-    userId = data['events'][0]['source']['userId']
-    machine = hash_map.setdefault(userId,TocMachine(
+    if(data['events'] == []):
+        return "OK"
+    userID = data['events'][0]['source']['userId']
+    machine = hash_map.setdefault(userID,TocMachine(
     states=["user", "power_input_num", "power_input_num1","power_ans","cal_input_num2","cal_input_num3","cal_input_symbol","cal_ans"],
     transitions=[
         {
@@ -116,7 +118,7 @@ def webhook_handler():
         if response == False:
             # send_text_message(event.reply_token, "Not Entering any State")
             if event.message.text == 'fsm圖':
-                send_image_message(event.reply_token, f'{main_url}/show-fsm')
+                send_image_message(event.reply_token, f'{main_url}/show-fsm/{userID}')
             else:
                 print('還在user')
                 title = '請選擇想要的功能'
@@ -139,23 +141,13 @@ def webhook_handler():
 
     return "OK"
 
-@app.route("/show-fsm", methods=["GET"])
-def show_fsm():
+@app.route("/show-fsm/<userID>", methods=["GET"])
+def show_fsm(userID):
     machine = hash_map.get(userID)
     machine.get_graph().draw("fsm.png", prog="dot", format="png")
     return send_file("fsm.png", mimetype="image/png")
 
 if __name__ == "__main__":
     port = os.environ.get("PORT", 8000)
-app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port, debug=True)
 
-"""
-if __name__ == "__main__":
-    from gevent import pywsgi
-    port = os.environ.get("PORT", 8000)
-
-    server = pywsgi.WSGIServer(('0.0.0.0',int(port)),port)
-
-    server.serve_forever()
-    #app.run(host="0.0.0.0", port=port, debug=True)
-"""
