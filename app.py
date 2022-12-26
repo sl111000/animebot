@@ -86,7 +86,7 @@ def webhook_handler():
         },         
         {
             "trigger": "advance",
-            "source":[ "power_input_num", "power_input_num1","power_ans","cal_input_num2","cal_input_num3","cal_input_symbol","cal_ans"],
+            "source":["power_input_num", "power_input_num1","power_ans","cal_input_num2","cal_input_num3","cal_input_symbol","cal_ans"],
             "dest": "user",
             "conditions": "back",
         },
