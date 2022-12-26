@@ -61,13 +61,13 @@ def send_image_message(reply_token, url):
     return "OK"
 
 def power (num,num1):
-    ans=[]
-    power = pow(num,num1)
-    ans.append(power)
+    ans = int()
+    power = pow(int(num),int(num1))
+    ans = power
     return ans
 
 def cal(num,num1,symbol):
-    ans =[]
+    ans = int()
     if symbol== '+':
        cal = num+num1
     elif symbol =='-' :
@@ -78,7 +78,7 @@ def cal(num,num1,symbol):
         cal = num/num1
     else :
         return('運算符號不正確')
-    ans.append(cal)
+    ans = cal
     return ans
 
 

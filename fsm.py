@@ -2,7 +2,7 @@ from transitions.extensions import GraphMachine
 from linebot.models import MessageAction,URIAction,MessageTemplateAction,CarouselColumn,MessageEvent, TextMessage, TextSendMessage,URIAction,MessageAction
 from utils import send_button_message, send_carousel_message, send_image_message, send_text_message,send_text_multiple_message,send_video_message
 from utils import power
-
+from utils import cal
 
 class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
@@ -45,6 +45,7 @@ class TocMachine(GraphMachine):
             return False
         self.weight = w
         return True 
+    
 
     def on_enter_power_input_num(self, event):
         reply = event.reply_token
@@ -57,9 +58,9 @@ class TocMachine(GraphMachine):
         send_text_message(reply, '請輸入要的次方數')
 
     def on_enter_power_ans(self, event):
-        ans = BMI(self.num, self.num1)
+        ans = power(self.num, self.num1)
         title = '結果'
-        text = f'power:{ans[0]}, {ans[1]}'
+        text = f'答案:{ans}'
         btn = [
             MessageTemplateAction(
                 label = '返回主選單',

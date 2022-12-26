@@ -40,7 +40,7 @@ def webhook_handler():
 
     userId = data['events'][0]['source']['userId']
     machine = hash_map.setdefault(userId,TocMachine(
-    states=["user", "power_input_num", "power_input_num1","power_ans"],
+    states=["user", "power_input_num", "power_input_num1","power_ans","cal_input_num","cal_input_num1","cal_input_symbol","cal_ans"],
     transitions=[
         {
             "trigger": "advance",
@@ -62,10 +62,35 @@ def webhook_handler():
         },
         {
             "trigger": "advance",
-            "source": "power_ans",
+            "source": "user",
+            "dest": "cal_input_num",
+            "conditions": "is_going_to_cal_input_num",
+        },
+        {
+            "trigger": "advance",
+            "source": "cal_input_num",
+            "dest": "cal_input_num1",
+            "conditions": "is_going_to_cal_input_num1",
+        },
+        {
+            "trigger": "advance",
+            "source": "cal_input_num1",
+            "dest": "cal_input_symbol",
+            "conditions": "is_going_to_cal_input_symbol",
+        },
+        {
+            "trigger": "advance",
+            "source": "cal_input_symbol",
+            "dest": "cal_ans",
+            "conditions": "is_going_to_cal_ans",
+        },         
+        {
+            "trigger": "advance",
+            "source":["user", "power_input_num", "power_input_num1","power_ans","cal_input_num","cal_input_num1","cal_input_symbol","cal_ans"],
             "dest": "user",
             "conditions": "back",
-         },
+        },
+
     ],
     initial="user",
     auto_transitions=False,
@@ -83,7 +108,8 @@ def webhook_handler():
             continue
         if not isinstance(event.message, TextMessage):
             continue
-
+        if not isinstance(event.message.text, str):
+            continue
         print(f"\nFSM STATE: {machine.state}")
         print(f"REQUEST BODY: \n{body}")
         response = machine.advance(event)
@@ -99,6 +125,10 @@ def webhook_handler():
                     MessageTemplateAction(
                         label = '計算次方',
                         text ='計算次方'
+                    ),
+                     MessageTemplateAction(
+                        label = '簡易計算機',
+                        text = '簡易計算機'
                     )
                 ]
                 send_button_message(event.reply_token, title, text, btn, url)
