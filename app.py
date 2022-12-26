@@ -145,7 +145,11 @@ def show_fsm():
     machine.get_graph().draw("fsm.png", prog="dot", format="png")
     return send_file("fsm.png", mimetype="image/png")
 
+if __name__ == "__main__":
+    port = os.environ.get("PORT", 8000)
+app.run(host="0.0.0.0", port=port, debug=True)
 
+"""
 if __name__ == "__main__":
     from gevent import pywsgi
     port = os.environ.get("PORT", 8000)
@@ -154,4 +158,4 @@ if __name__ == "__main__":
 
     server.serve_forever()
     #app.run(host="0.0.0.0", port=port, debug=True)
-
+"""
