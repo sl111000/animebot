@@ -29,10 +29,22 @@
 https://raw.githubusercontent.com/sl111000/linebot/master/fsm.png
 
 state説明
+
 user=初始狀態
+
 power_input_num=次方功能下的任意數
+
 power_input_num1=次方功能下的正整數
 
+power_ans=次方的答案
+
+cal_input_num2=計算機功能下的第一個數字
+
+cal_input_num3=計算機功能下的第二個數字
+
+cal_input_symbol=計算機功能下的運算符號
+
+cal_ans=計算機的答案
 
 ## Reference
 [Pipenv](https://medium.com/@chihsuan/pipenv-更簡單-更快速的-python-套件管理工具-135a47e504f4) ❤️ [@chihsuan](https://github.com/chihsuan)
