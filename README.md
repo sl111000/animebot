@@ -26,7 +26,7 @@
 會給出fsm的圖
 
 ## FSM圖
-https://raw.githubusercontent.com/sl111000/linebot/master/fsm.png
+![image](https://raw.githubusercontent.com/sl111000/linebot/master/img/fsm.jpg)
 
 state説明
 
