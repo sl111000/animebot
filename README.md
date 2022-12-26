@@ -46,6 +46,11 @@ cal_input_symbol=計算機功能下的運算符號
 
 cal_ans=計算機的答案
 
+## 操作示範
+1.隨便輸入英文字母來開始linebot的操作
+![image](https://raw.githubusercontent.com/sl111000/linebot/master/img/1.jpg)
+
+
 ## Reference
 [Pipenv](https://medium.com/@chihsuan/pipenv-更簡單-更快速的-python-套件管理工具-135a47e504f4) ❤️ [@chihsuan](https://github.com/chihsuan)
 
