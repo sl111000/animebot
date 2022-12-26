@@ -66,3 +66,4 @@ def power (num,num1):
     ans.append(power)
     return ans
 
+

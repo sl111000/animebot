@@ -11,6 +11,7 @@ class TocMachine(GraphMachine):
         self.choice = ''
         self.machine = GraphMachine(model=self, **machine_configs)
 
+
     def is_going_to_power_input_num(self, event):
         return event.message.text == '計算次方'
 
