@@ -6,9 +6,9 @@ from utils import cal
 
 class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
-        self.weight = -1
-        self.height = -1
-        self.choice = ''
+        self.num = -1
+        self.num1 = -1
+        self.symbol = ''
         self.machine = GraphMachine(model=self, **machine_configs)
 
 
@@ -21,7 +21,7 @@ class TocMachine(GraphMachine):
             w = int(text)
         except ValueError:
             return False
-        self.weight = w
+        self.num = w
         return True 
 
     def is_going_to_power_ans(self, event):
@@ -30,7 +30,7 @@ class TocMachine(GraphMachine):
             w = int(text)
         except ValueError:
             return False
-        self.height = w
+        self.num1 = w
         return True   
 
     def is_going_to_cal_input_num(self, event):
@@ -43,9 +43,24 @@ class TocMachine(GraphMachine):
             w = int(text)
         except ValueError:
             return False
-        self.weight = w
+        self.num = w
         return True 
-    
+
+    def is_going_to_cal_input_symbol(self, event):
+        text = event.message.text
+        try:
+            w = int(text)
+        except ValueError:
+            return False
+        self.num1 = w
+        return True 
+    def is_going_to_cal_ans(self, event):
+        text = event.message.text
+
+        self.symbol = text
+        a = ['+', '-', '*','/']
+        return self.symbol in a
+
 
     def on_enter_power_input_num(self, event):
         reply = event.reply_token
@@ -74,9 +89,9 @@ class TocMachine(GraphMachine):
         return text == '返回主選單'
 
 def on_enter_user(self, event):
-        self.weight = -1
-        self.height = -1
-        self.choice = ''
+        self.num = -1
+        self.num1 = -1
+        self.symbol = ''
         print('還在user')
         title = '請選擇想要的功能'
         text = '功能如下'

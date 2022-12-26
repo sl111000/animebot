@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 
 from flask import Flask,send_from_directory, jsonify, request, abort, send_file
 from dotenv import load_dotenv
@@ -9,7 +10,7 @@ from linebot.models import MessageTemplateAction,CarouselColumn,MessageEvent, Te
 from utils import send_button_message, send_carousel_message, send_image_message, send_text_message,send_text_multiple_message,send_video_message
 from fsm import TocMachine
 from utils import send_text_message
-
+os.environ['PATH'] =  os.pathsep + './Graphviz/bin/'
 app = Flask(__name__, static_url_path="")
 load_dotenv()
 hash_map = dict()
