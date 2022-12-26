@@ -28,7 +28,7 @@ if channel_access_token is None:
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
 
-@app.route("/webhook", methods=["POST"])
+@app.route("/callback", methods=["POST"])
 def webhook_handler():
     signature = request.headers["X-Line-Signature"]
     # get request body as text
@@ -130,6 +130,10 @@ def webhook_handler():
                      MessageTemplateAction(
                         label = '簡易計算機',
                         text = '簡易計算機'
+                    ),
+                     MessageTemplateAction(
+                        label = 'fsm圖',
+                        text = 'fsm圖'
                     )
                 ]
                 send_button_message(event.reply_token, title, text, btn, url)
@@ -138,11 +142,13 @@ def webhook_handler():
 
 @app.route("/show-fsm", methods=["GET"])
 def show_fsm():
+    machine = hash_map.get(userID)
     machine.get_graph().draw("fsm.png", prog="dot", format="png")
     return send_file("fsm.png", mimetype="image/png")
 
 
 if __name__ == "__main__":
+    from gevent import pywsgi
     port = os.environ.get("PORT", 8000)
 
     server = pywsgi.WSGIServer(('0.0.0.0',int(port)),port)

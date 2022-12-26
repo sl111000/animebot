@@ -83,6 +83,47 @@ class TocMachine(GraphMachine):
             ),
         ]
         send_button_message(event.reply_token, title, text, btn)
+    def on_enter_cal_input_num(self, event):
+        reply = event.reply_token
+        text = event.message.text
+        send_text_message(reply, '請輸入數字')
+
+    def on_enter_cal_input_num1(self, event):
+        reply = event.reply_token
+        text = event.message.text
+        send_text_message(reply, '請輸入第二個數字')
+
+    def on_enter_cal_input_symbol(self, event):
+        title = '請選擇你要的功能'
+        text = f'請選出功能'
+        btn = [
+            MessageTemplateAction(
+                label = '+',
+                text ='+'
+            ),MessageTemplateAction(
+                label = '-',
+                text ='-'
+            ),MessageTemplateAction(
+                label = '*',
+                text ='*'
+            ),MessageTemplateAction(
+                label = '/',
+                text ='/'
+            ),
+        ]
+        send_button_message(event.reply_token, title, text, btn)
+
+    def on_enter_cal_ans(self, event):
+        ans = cal(self.num, self.num1,self.symbol)
+        title = '結果'
+        text = f'答案:{ans}'
+        btn = [
+            MessageTemplateAction(
+                label = '返回主選單',
+                text ='返回主選單'
+            ),
+        ]
+        send_button_message(event.reply_token, title, text, btn)
 
     def back(self, event):
         text = event.message.text
@@ -103,6 +144,10 @@ def on_enter_user(self, event):
             MessageTemplateAction(
                 label = '簡易計算機',
                 text = '簡易計算機'
-           )
+           ),
+            MessageTemplateAction(
+                label = 'fsm圖',
+                text = 'fsm圖'
+            )
         ]
         send_button_message(event.reply_token, title, text, btn) 

@@ -81,4 +81,6 @@ def cal(num,num1,symbol):
     ans = cal
     return ans
 
-
+if __name__ == '__main__':
+    print(power(5,5))
+    print(cal(5,5,'+'))
