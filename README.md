@@ -28,6 +28,12 @@
 ## FSM圖
 https://raw.githubusercontent.com/sl111000/linebot/master/fsm.png
 
+state説明
+user=初始狀態
+power_input_num=次方功能下的任意數
+power_input_num1=次方功能下的正整數
+
+
 ## Reference
 [Pipenv](https://medium.com/@chihsuan/pipenv-更簡單-更快速的-python-套件管理工具-135a47e504f4) ❤️ [@chihsuan](https://github.com/chihsuan)
 
