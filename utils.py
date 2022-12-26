@@ -32,7 +32,6 @@ def send_carousel_message(reply_token, col):
         template = CarouselTemplate(columns = col)
     )
     line_bot_api.reply_message(reply_token, message)
-
     return "OK"
 
 
