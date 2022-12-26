@@ -1,6 +1,5 @@
 import os
 import sys
-import json
 
 from flask import Flask,send_from_directory, jsonify, request, abort, send_file
 from dotenv import load_dotenv
@@ -41,7 +40,7 @@ def webhook_handler():
 
     userId = data['events'][0]['source']['userId']
     machine = hash_map.setdefault(userId,TocMachine(
-    states=["user", "power_input_num", "power_input_num1","power_ans","cal_input_num","cal_input_num1","cal_input_symbol","cal_ans"],
+    states=["user", "power_input_num", "power_input_num1","power_ans","cal_input_num2","cal_input_num3","cal_input_symbol","cal_ans"],
     transitions=[
         {
             "trigger": "advance",
@@ -64,18 +63,18 @@ def webhook_handler():
         {
             "trigger": "advance",
             "source": "user",
-            "dest": "cal_input_num",
-            "conditions": "is_going_to_cal_input_num",
+            "dest": "cal_input_num2",
+            "conditions": "is_going_to_cal_input_num2",
         },
         {
             "trigger": "advance",
-            "source": "cal_input_num",
-            "dest": "cal_input_num1",
-            "conditions": "is_going_to_cal_input_num1",
+            "source": "cal_input_num2",
+            "dest": "cal_input_num3",
+            "conditions": "is_going_to_cal_input_num3",
         },
         {
             "trigger": "advance",
-            "source": "cal_input_num1",
+            "source": "cal_input_num3",
             "dest": "cal_input_symbol",
             "conditions": "is_going_to_cal_input_symbol",
         },
@@ -87,7 +86,7 @@ def webhook_handler():
         },         
         {
             "trigger": "advance",
-            "source":["user", "power_input_num", "power_input_num1","power_ans","cal_input_num","cal_input_num1","cal_input_symbol","cal_ans"],
+            "source":[ "power_input_num", "power_input_num1","power_ans","cal_input_num2","cal_input_num3","cal_input_symbol","cal_ans"],
             "dest": "user",
             "conditions": "back",
         },

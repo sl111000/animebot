@@ -60,22 +60,22 @@ def send_image_message(reply_token, url):
 
     return "OK"
 
-def power (num,num1):
+def power(num,num1):
     ans = int()
     power = pow(int(num),int(num1))
     ans = power
     return ans
 
-def cal(num,num1,symbol):
+def cal(num2,num3,symbol):
     ans = int()
-    if symbol== '+':
-       cal = num+num1
+    if symbol == '+':
+       cal = num2+num3
     elif symbol =='-' :
-        cal = num-num1
+        cal = num2-num3
     elif symbol =='*':
-        cal = num*num1
+        cal = num2*num3
     elif symbol == '/':
-        cal = num/num1
+        cal = num2/num3
     else :
         return('運算符號不正確')
     ans = cal

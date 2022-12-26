@@ -1,4 +1,5 @@
 from transitions.extensions import GraphMachine
+from utils import send_text_message
 from linebot.models import MessageAction,URIAction,MessageTemplateAction,CarouselColumn,MessageEvent, TextMessage, TextSendMessage,URIAction,MessageAction
 from utils import send_button_message, send_carousel_message, send_image_message, send_text_message,send_text_multiple_message,send_video_message
 from utils import power
@@ -8,6 +9,8 @@ class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
         self.num = -1
         self.num1 = -1
+        self.num2 = -1
+        self.num3 = -1
         self.symbol = ''
         self.machine = GraphMachine(model=self, **machine_configs)
 
@@ -33,17 +36,17 @@ class TocMachine(GraphMachine):
         self.num1 = w
         return True   
 
-    def is_going_to_cal_input_num(self, event):
+    def is_going_to_cal_input_num2(self, event):
         return event.message.text == '簡易計算機'
 
 
-    def is_going_to_cal_input_num1(self, event):
+    def is_going_to_cal_input_num3(self, event):
         text = event.message.text
         try:
             w = int(text)
         except ValueError:
             return False
-        self.num = w
+        self.num2 = w
         return True 
 
     def is_going_to_cal_input_symbol(self, event):
@@ -52,7 +55,7 @@ class TocMachine(GraphMachine):
             w = int(text)
         except ValueError:
             return False
-        self.num1 = w
+        self.num3 = w
         return True 
     def is_going_to_cal_ans(self, event):
         text = event.message.text
@@ -83,12 +86,13 @@ class TocMachine(GraphMachine):
             ),
         ]
         send_button_message(event.reply_token, title, text, btn)
-    def on_enter_cal_input_num(self, event):
+
+    def on_enter_cal_input_num2(self, event):
         reply = event.reply_token
         text = event.message.text
         send_text_message(reply, '請輸入數字')
 
-    def on_enter_cal_input_num1(self, event):
+    def on_enter_cal_input_num3(self, event):
         reply = event.reply_token
         text = event.message.text
         send_text_message(reply, '請輸入第二個數字')
@@ -114,7 +118,7 @@ class TocMachine(GraphMachine):
         send_button_message(event.reply_token, title, text, btn)
 
     def on_enter_cal_ans(self, event):
-        ans = cal(self.num, self.num1,self.symbol)
+        ans = cal(self.num2, self.num3,self.symbol)
         title = '結果'
         text = f'答案:{ans}'
         btn = [
@@ -132,6 +136,8 @@ class TocMachine(GraphMachine):
 def on_enter_user(self, event):
         self.num = -1
         self.num1 = -1
+        self.num2 = -1
+        self.num3 = -1
         self.symbol = ''
         print('還在user')
         title = '請選擇想要的功能'
