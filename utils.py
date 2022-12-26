@@ -66,4 +66,19 @@ def power (num,num1):
     ans.append(power)
     return ans
 
+def cal(num,num1,symbol):
+    ans =[]
+    if symbol== '+':
+       cal = num+num1
+    elif symbol =='-' :
+        cal = num-num1
+    elif symbol =='*':
+        cal = num*num1
+    elif symbol == '/':
+        cal = num/num1
+    else :
+        return('運算符號不正確')
+    ans.append(cal)
+    return ans
+
 

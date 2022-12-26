@@ -33,27 +33,40 @@ class TocMachine(GraphMachine):
         self.height = w
         return True   
 
-    def on_enter_Input_num(self, event):
+    def is_going_to_cal_input_num(self, event):
+        return event.message.text == '簡易計算機'
+
+
+    def is_going_to_cal_input_num1(self, event):
+        text = event.message.text
+        try:
+            w = int(text)
+        except ValueError:
+            return False
+        self.weight = w
+        return True 
+
+    def on_enter_power_input_num(self, event):
         reply = event.reply_token
         text = event.message.text
         send_text_message(reply, '請輸入數字')
 
-    def on_enter_Input_num1(self, event):
+    def on_enter_power_input_num1(self, event):
         reply = event.reply_token
         text = event.message.text
         send_text_message(reply, '請輸入要的次方數')
 
-    def on_enter_BMI_result(self, event):
+    def on_enter_power_ans(self, event):
         ans = BMI(self.num, self.num1)
         title = '結果'
-        text = f'BMI:{ans[0]}, {ans[1]}'
+        text = f'power:{ans[0]}, {ans[1]}'
         btn = [
             MessageTemplateAction(
                 label = '返回主選單',
                 text ='返回主選單'
             ),
         ]
-        send_button_message(event.reply_token, title, text, btn, url)
+        send_button_message(event.reply_token, title, text, btn)
 
     def back(self, event):
         text = event.message.text
@@ -71,6 +84,9 @@ def on_enter_user(self, event):
                 label = '計算次方',
                 text ='計算次方'
             ),
-            
+            MessageTemplateAction(
+                label = '簡易計算機',
+                text = '簡易計算機'
+           )
         ]
-        send_button_message(event.reply_token, title, text, btn, url) 
+        send_button_message(event.reply_token, title, text, btn) 
